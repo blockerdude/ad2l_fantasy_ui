@@ -8,6 +8,7 @@ import Home from './components/Home/Home';
 import RouteGuard from './components/RouteGuard/RouteGuard';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

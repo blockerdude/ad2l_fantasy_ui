@@ -9,11 +9,9 @@ interface RouteGuardProps {
   children?: any
 }
 
-console.log('when am I run?')
 
 // Children is a reserved word, and must be named as such
 const RouteGuard: FC<RouteGuardProps> = ({ login, children }) => {
-  console.log('here1')
 
   const instance = Controller.getInstance()
   instance.doThing('in route')

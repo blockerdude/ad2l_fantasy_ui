@@ -16,7 +16,6 @@ export default class Controller {
     }
 
     public doThing(str: string): void {
-        console.log(Controller.instance.var2)
 
         Controller.instance.var1 = str
         Controller.instance.var2++

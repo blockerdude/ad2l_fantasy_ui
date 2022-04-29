@@ -3,6 +3,7 @@ import './App.css';
 import Login from './components/Login/Login';
 import { Link, Outlet } from "react-router-dom";
 import Controller from './services/controller';
+import Header from './components/Header/Header';
 
 // const [language, setLanguage] = useState("en");
 
@@ -18,6 +19,7 @@ function App() {
 
 
     <div className="App">
+      <Header></Header>
       <Login />
       <nav
         style={{
