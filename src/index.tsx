@@ -27,7 +27,7 @@ root.render(
           <Route
             path="please"
             element={
-              <RouteGuard login={true}>
+              <RouteGuard login={true} admin={false}>
                 <Home user="please" />
               </RouteGuard>
             }

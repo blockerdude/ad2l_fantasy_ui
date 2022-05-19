@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import Controller from '../../services/controller';
+import SessionStorageService from '../../services/sessionStorage';
 import './RouteGuard.css';
 
 interface RouteGuardProps {
@@ -11,10 +11,20 @@ interface RouteGuardProps {
 
 
 // Children is a reserved word, and must be named as such
-const RouteGuard: FC<RouteGuardProps> = ({ login, children }) => {
+const RouteGuard: FC<RouteGuardProps> = ({ login, admin, children }) => {
 
-  const instance = Controller.getInstance()
-  instance.doThing('in route')
+
+  const sessionStorage = SessionStorageService.getInstance()
+  const user = sessionStorage.getUser()
+  if (!user) {
+
+    return <Navigate to="/" replace />
+
+  }
+  return children ? children : <Outlet />
+
+
+
 
   // const { name } = React.useContext(userContext)
   // console.log(name)
@@ -22,10 +32,12 @@ const RouteGuard: FC<RouteGuardProps> = ({ login, children }) => {
   // setName('asd')
 
 
-  if (!login) {
-    return <Navigate to="/" replace />
-  }
-  return children ? children : <Outlet />
+
+
+  // if (!login) {
+  //   return <Navigate to="/" replace />
+  // }
+  // return children ? children : <Outlet />
 
 };
 

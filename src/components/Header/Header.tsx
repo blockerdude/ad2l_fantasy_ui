@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { baseCall, conference, getOIDCRedirectURL } from '../../services/authn';
+import { getUser, conference, getOIDCRedirectURL, logoutUser } from '../../services/authnService';
+import SessionStorageService from '../../services/sessionStorage';
 import './Header.css';
 
 interface HeaderProps {
@@ -9,6 +10,8 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = () => {
 
   const [confs, setConfs] = useState([] as conference[]);
+
+  const sessionStorage = SessionStorageService.getInstance()
 
   function Test() {
 
@@ -23,9 +26,7 @@ const Header: FC<HeaderProps> = () => {
 
 
   const doLogin = () => {
-    console.log('calling')
     getOIDCRedirectURL().then(res => {
-      console.log('got results', res.data)
       window.location.href = res.data
       return false
     })
@@ -34,10 +35,16 @@ const Header: FC<HeaderProps> = () => {
   }
 
   const secondCall = () => {
-    console.log('calling')
-    baseCall().then(res => {
-      console.log('got results', res.data)
-      setConfs(res.data)
+    getUser().then(res => {
+      console.log(res.data)
+      sessionStorage.storeUser(res.data)
+      // setConfs(res.data)
+    })
+  }
+
+  const logout = () => {
+    logoutUser().then(res => {
+      console.log('logged out user')
     })
   }
 
@@ -51,6 +58,10 @@ const Header: FC<HeaderProps> = () => {
 
       <Button variant='secondary' onClick={secondCall}>
         Get Confs
+      </Button>
+
+      <Button variant='secondary' onClick={logout}>
+        Logout user
       </Button>
       <Test></Test>
     </div>

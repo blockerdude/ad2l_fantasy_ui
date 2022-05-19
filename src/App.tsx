@@ -1,18 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import Login from './components/Login/Login';
 import { Link, Outlet } from "react-router-dom";
-import Controller from './services/controller';
 import Header from './components/Header/Header';
 
 // const [language, setLanguage] = useState("en");
 
 function App() {
-  const instance = Controller.getInstance()
+  // const instance = SessionStorageService.getInstance()
 
-  instance.doThing('from app')
+  // instance.doThing('from app')
 
-  localStorage.setItem('test', 'value')
+  // localStorage.setItem('test', 'value')
 
 
   return (
