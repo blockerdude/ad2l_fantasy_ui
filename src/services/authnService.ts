@@ -10,8 +10,8 @@ export interface conference {
 //     confs: conference[]
 // }
 
-export function getOIDCRedirectURL(): Promise<AxiosResponse<string>> {
-    return axios.get<string>("api/startOIDC")
+export function getLoginRedirectURL(): Promise<AxiosResponse<string>> {
+    return axios.get<string>("api/login")
 }
 
 export function getUser(): Promise<AxiosResponse<User>> {
@@ -22,3 +22,6 @@ export function logoutUser(): Promise<AxiosResponse<void>> {
     return axios.get<void>("/api/logout")
 }
 
+export function getSignupUserRedirectURL(): Promise<AxiosResponse<string>> {
+    return axios.get<string>("/api/signup")
+}

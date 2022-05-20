@@ -7,6 +7,9 @@ interface HomeProps {
   user: string
 }
 
+// TODO: Create an endpoint specifically designed to get hit from oidc redirect. Just looks like loading screen
+// on load call get authn info and store it, then navigate to home or w/e
+
 const Home: FC<HomeProps> = ({ user }) => (
 
   <div>

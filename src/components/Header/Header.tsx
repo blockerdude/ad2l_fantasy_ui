@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { getUser, conference, getOIDCRedirectURL, logoutUser } from '../../services/authnService';
+import { getUser, conference, getLoginRedirectURL, logoutUser, getSignupUserRedirectURL } from '../../services/authnService';
 import SessionStorageService from '../../services/sessionStorage';
 import './Header.css';
 
@@ -26,7 +26,7 @@ const Header: FC<HeaderProps> = () => {
 
 
   const doLogin = () => {
-    getOIDCRedirectURL().then(res => {
+    getLoginRedirectURL().then(res => {
       window.location.href = res.data
       return false
     })
@@ -48,6 +48,13 @@ const Header: FC<HeaderProps> = () => {
     })
   }
 
+  const signup = () => {
+    getSignupUserRedirectURL().then(res => {
+      window.location.href = res.data
+      return false
+    })
+  }
+
 
   return (
     <div className="Header" data-testid="Header">
@@ -57,11 +64,15 @@ const Header: FC<HeaderProps> = () => {
       </Button>
 
       <Button variant='secondary' onClick={secondCall}>
-        Get Confs
+        Get User Info
       </Button>
 
       <Button variant='secondary' onClick={logout}>
         Logout user
+      </Button>
+
+      <Button variant='success' onClick={signup}>
+        New User
       </Button>
       <Test></Test>
     </div>
