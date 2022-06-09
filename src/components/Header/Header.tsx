@@ -1,29 +1,19 @@
-import React, { FC, useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { getUser, conference, getLoginRedirectURL, logoutUser, getSignupUserRedirectURL } from '../../services/authnService';
+import { FC } from 'react';
+import { Button, Nav, Navbar } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { getLoginRedirectURL, logoutUser, getSignupUserRedirectURL } from '../../services/authnService';
 import SessionStorageService from '../../services/sessionStorage';
+import { RootState } from '../../store/store';
 import './Header.css';
 
 interface HeaderProps {
 }
-
+const sessionStorage = SessionStorageService.getInstance()
 const Header: FC<HeaderProps> = () => {
-
-  const [confs, setConfs] = useState([] as conference[]);
-
-  const sessionStorage = SessionStorageService.getInstance()
-
-  function Test() {
-
-    if (confs.length === 0) {
-      return <div>Press test to load</div>
-    }
-
-    return (<div>
-      {confs.map(conf => (<div key={conf.name}>{conf.name}:{conf.description}</div>))}
-    </div>)
-  }
-
+  const curUser = sessionStorage.getUser()
+  const count = useSelector((state: RootState) => state.counter.value)
+  const navigate = useNavigate()
 
   const doLogin = () => {
     getLoginRedirectURL().then(res => {
@@ -34,17 +24,11 @@ const Header: FC<HeaderProps> = () => {
     return false
   }
 
-  const secondCall = () => {
-    getUser().then(res => {
-      console.log(res.data)
-      sessionStorage.storeUser(res.data)
-      // setConfs(res.data)
-    })
-  }
-
   const logout = () => {
     logoutUser().then(res => {
-      console.log('logged out user')
+      sessionStorage.clearUser()
+      navigate("/")
+
     })
   }
 
@@ -55,26 +39,52 @@ const Header: FC<HeaderProps> = () => {
     })
   }
 
+  function getUserActions() {
+
+    if (curUser) {
+      return (
+        <div>
+          <Navbar.Text>{curUser.email} | {curUser.displayName}</Navbar.Text>
+
+          <Button className="right-btn" variant='outline-light' onClick={logout} type="reset">
+            logout
+          </Button>
+
+        </div>
+      )
+    }
+    return (<div>
+      <Button variant='outline-light' onClick={signup} type="reset">
+        Sign Up
+      </Button>
+      {count}
+
+      <Button className="right-btn" variant='outline-light' onClick={doLogin}>
+        Login
+      </Button>
+    </div>)
+  }
 
   return (
     <div className="Header" data-testid="Header">
+      <Navbar bg="dark" variant="dark">
 
-      <Button variant='primary' onClick={doLogin} type="reset">
-        Login
-      </Button>
+        <Navbar.Brand className="title" href="home">Dota2 Fantasy</Navbar.Brand>
+        <Nav>
+          <Nav.Link href="conferences">Conferences</Nav.Link>
+        </Nav>
+        <Nav className="me-auto">
+          <Nav.Link href="seasons">Seasons</Nav.Link>
+          <Nav.Link href="leagues">Leauges</Nav.Link>
+          {/* <Nav.Link href="teams">Teams</Nav.Link> */}
+        </Nav>
 
-      <Button variant='secondary' onClick={secondCall}>
-        Get User Info
-      </Button>
 
-      <Button variant='secondary' onClick={logout}>
-        Logout user
-      </Button>
+        {getUserActions()}
 
-      <Button variant='success' onClick={signup}>
-        New User
-      </Button>
-      <Test></Test>
+
+      </Navbar>
+
     </div>
   )
 };

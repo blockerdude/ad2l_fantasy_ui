@@ -6,7 +6,7 @@ export default class SessionStorageService {
     private userKey = "user"
 
     private constructor() {
-
+        // console.log('here in structor user is', this.getUser())
     }
 
     public static getInstance(): SessionStorageService {
@@ -26,5 +26,9 @@ export default class SessionStorageService {
             return null
         }
         return JSON.parse(userStr)
+    }
+
+    public clearUser(): void {
+        window.sessionStorage.removeItem(this.userKey)
     }
 }

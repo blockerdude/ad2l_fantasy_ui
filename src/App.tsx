@@ -13,7 +13,6 @@ function App() {
 
   // localStorage.setItem('test', 'value')
 
-
   return (
 
 
@@ -26,11 +25,10 @@ function App() {
           paddingBottom: "1rem",
         }}
       >
-        <Link to="/home">Home</Link> |{" "}
+        <Link to="/home">Home</Link> | {" "}
         <Link to="/sub1">Expenses</Link>
       </nav>
       <Outlet />
-
     </div>
 
   );

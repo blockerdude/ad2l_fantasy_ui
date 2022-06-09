@@ -9,6 +9,7 @@ import RouteGuard from './components/RouteGuard/RouteGuard';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import OidcRedirectGuard from './components/OidcRedirectGuard/OidcRedirectGuard';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -21,8 +22,12 @@ root.render(
 
         <Routes>
           <Route path="/" element={<App />}>
+
             <Route path="home" element={<Home user="home" />} />
           </Route>
+
+          <Route path="oidcRedirect" element={<OidcRedirectGuard></OidcRedirectGuard>} />
+
 
           <Route
             path="please"
