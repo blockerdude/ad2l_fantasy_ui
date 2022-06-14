@@ -1,15 +1,1 @@
 .Header {}
-
-.conf-element {
-    display: flex;
-    flex-direction: row;
-}
-
-.title {
-    margin-left: 2em;
-}
-
-.right-btn {
-    margin-left: 1em;
-    margin-right: 1em;
-}

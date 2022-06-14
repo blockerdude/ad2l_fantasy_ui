@@ -8,7 +8,6 @@ import Home from './components/Home/Home';
 import RouteGuard from './components/RouteGuard/RouteGuard';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import OidcRedirectGuard from './components/OidcRedirectGuard/OidcRedirectGuard';
 
 const root = ReactDOM.createRoot(
@@ -17,7 +16,14 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      />
       <BrowserRouter>
 
         <Routes>

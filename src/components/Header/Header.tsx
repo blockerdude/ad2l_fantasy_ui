@@ -1,5 +1,7 @@
+import { AccountCircle } from '@mui/icons-material';
+import { AppBar, Box, IconButton, MenuItem, Toolbar, Typography, Menu } from '@mui/material';
+import React from 'react';
 import { FC } from 'react';
-import { Button, Nav, Navbar } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getLoginRedirectURL, logoutUser, getSignupUserRedirectURL } from '../../services/authnService';
@@ -11,6 +13,16 @@ interface HeaderProps {
 }
 const sessionStorage = SessionStorageService.getInstance()
 const Header: FC<HeaderProps> = () => {
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   const curUser = sessionStorage.getUser()
   const count = useSelector((state: RootState) => state.counter.value)
   const navigate = useNavigate()
@@ -43,49 +55,89 @@ const Header: FC<HeaderProps> = () => {
 
     if (curUser) {
       return (
-        <div>
-          <Navbar.Text>{curUser.email} | {curUser.displayName}</Navbar.Text>
-
-          <Button className="right-btn" variant='outline-light' onClick={logout} type="reset">
-            logout
-          </Button>
-
-        </div>
+        <Box sx={{ flexGrow: 0 }}>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            color="inherit"
+            onClick={handleOpenUserMenu}
+          >
+            <AccountCircle />
+          </IconButton>
+          <Menu
+            sx={{ mt: '45px' }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            <MenuItem onClick={logout}>
+              <Typography textAlign="center">Logout</Typography>
+            </MenuItem>
+          </Menu>
+        </Box>
       )
     }
-    return (<div>
-      <Button variant='outline-light' onClick={signup} type="reset">
-        Sign Up
-      </Button>
-      {count}
+    return (
 
-      <Button className="right-btn" variant='outline-light' onClick={doLogin}>
-        Login
-      </Button>
-    </div>)
+      <Box sx={{ display: 'flex', flexDirection: "row" }}>
+        <MenuItem onClick={signup}>
+          Sign Up
+        </MenuItem>
+
+        <MenuItem onClick={doLogin}>
+          Login
+        </MenuItem>
+      </Box>
+    )
   }
 
   return (
     <div className="Header" data-testid="Header">
-      <Navbar bg="dark" variant="dark">
 
-        <Navbar.Brand className="title" href="home">Dota2 Fantasy</Navbar.Brand>
-        <Nav>
-          <Nav.Link href="conferences">Conferences</Nav.Link>
-        </Nav>
-        <Nav className="me-auto">
-          <Nav.Link href="seasons">Seasons</Nav.Link>
-          <Nav.Link href="leagues">Leauges</Nav.Link>
-          {/* <Nav.Link href="teams">Teams</Nav.Link> */}
-        </Nav>
+      <AppBar position="static" >
+        <Toolbar sx={{ justifyContent: "space-between" }}>
+
+          <Box sx={{ display: "flex", flexDirection: "row" }}>
+            <MenuItem>
+              <Typography variant="h5">Dota2 Fantasy</Typography>
+            </MenuItem>
+
+            <MenuItem >
+              <Typography textAlign="center">Confrerences</Typography>
+            </MenuItem>
+
+            <MenuItem>
+              <Typography textAlign="center">Seasons</Typography>
+            </MenuItem>
+
+            <MenuItem>
+              <Typography textAlign="center">Leagues</Typography>
+            </MenuItem>
+
+          </Box>
+
+          {getUserActions()}
+
+        </Toolbar>
 
 
-        {getUserActions()}
+      </AppBar>
 
 
-      </Navbar>
 
-    </div>
+    </div >
   )
 };
 
